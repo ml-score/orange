@@ -1,8 +1,8 @@
 # Orange3 -  Machine Learning comparing different algorithms, low-code
 
-https://medium.com/p/d185214037af
+for details check out the Medium article:
 
-### Also: importing data into Orange3 from .parquet files
+https://medium.com/p/d185214037af
 
 KNIME and Python — Setting up and managing Conda environments (https://medium.com/p/2ac217792539)
 

@@ -1,0 +1,1 @@
+a samll test with Orange3 for machine learning

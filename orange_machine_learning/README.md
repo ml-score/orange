@@ -1,6 +1,8 @@
-a small test with Orange3 for machine learning comparing different algorithms
+# Orange3 -  Machine Learning comparing different algorithms, low-code
 
-Also: importing data into Orange3 from .parquet files
+https://medium.com/p/d185214037af
+
+### Also: importing data into Orange3 from .parquet files
 
 KNIME and Python — Setting up and managing Conda environments (https://medium.com/p/2ac217792539)
 

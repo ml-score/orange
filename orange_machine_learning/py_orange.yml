@@ -1,0 +1,56 @@
+# KNIME and Python — Setting up and managing Conda environments
+# https://medium.com/p/2ac217792539
+
+# Orange Data Mining Videos
+# https://www.youtube.com/@OrangeDataMining/videos
+
+# conda env create -f="/Users/m_lauber/Dropbox/knime-workspace/orange/py_orange.yml"
+# conda env create -f="C:\\Users\\x123456\\knime-workspace\\orange\\py_orange.yml"
+
+# in  case the environment is already there
+# conda remove -n py_orange --all
+# orange-canvas
+
+# conda activate py_orange
+# conda update -n py_orange --all
+
+# conda env update --name py_orange --file "/Users/m_lauber/Dropbox/knime-workspace/orange/py_orange.yml" --prune
+# conda env update --name py_orange --file "C:\\Users\\x123456\\knime-workspace\\orange\\py_orange.yml" --prune
+
+# conda env update --name py_orange --file "/Users/m_lauber/Dropbox/knime-workspace/orange/py_orange.yml"
+# conda env update --name py_orange --file "C:\\Users\\x123456\\knime-workspace\\orange\\py_orange.yml"
+# conda update -n base conda
+
+# conda activate py_orange
+# conda install -n py_orange -c conda-forge xgboost
+
+# file: py_orange.yml with some modifications
+# THX Carsten Haubold (https://hub.knime.com/carstenhaubold) for hints
+name: py_orange         # Name of the created environment
+channels:                # Repositories to search for packages
+# - defaults             # edit: removed to just use conda-forge
+# - anaconda             # edit: removed to just use conda-forge
+  - conda-forge
+# https://anaconda.org/knime
+dependencies:            # List of packages that should be installed
+- python=3.9             # Python
+- pyarrow
+# - jupyter             # Jupyter Notebook
+# - pandas-profiling    # create overview of your data
+# - sweetviz            # In-depth EDA (target analysis, comparison, feature analysis, correlation) in two lines of code!
+- pyqt                  # Python bindings for the Qt cross platform application toolkit
+# conda install -c conda-forge orange3
+# - orange3               # component-based data mining framework - https://orangedatamining.com
+# conda search orange3 -c conda-forge --info
+# conda install -c conda-forge orange3-educational
+# - orange3-educational
+# - orange3-geo
+- pip                   # Python installer
+- pip:
+#  - JPype1 # Databases
+  # - Orange3                # component-based data mining framework - https://orangedatamining.com
+  # - Orange-Network
+  # - Orange3-shap
+  # - Orange3-Timeseries
+  # - Orange3-Educational
+  # - Orange3-Explain

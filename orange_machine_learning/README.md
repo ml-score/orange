@@ -19,3 +19,6 @@ conda config --add channels conda-forge
 conda update -n py_orange --all
 
 conda install -n py_orange -c conda-forge xgboost
+
+#
+![Screenshot of an Orange3 workflow for Machine Learning](Orange3_workflow.png)

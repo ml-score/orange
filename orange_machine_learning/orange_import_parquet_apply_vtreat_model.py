@@ -1,27 +1,33 @@
-# demonstrates how to import a parquet file into Orange3 and convert it to a usable Orange data file
+from Orange.data import Domain, Table
 
 # Orange3 - Machine Learning comparing different algorithms, low-code
 # https://medium.com/p/d185214037af
 
-import pandas as pd
-import Orange
+# Medium: Data preparation for Machine Learning with KNIME and the Python “vtreat” package
+# https://medium.com/p/efcaf58fa783
 
-import numpy as np
+# conda install -n py_orange -c conda-forge vtreat
+
 import pyarrow.parquet as pq
 
+import Orange
+import pandas as pd
+import numpy as np
+import pickle
+
+import vtreat
 
 # var_path_data = "C:\\Users\\a123456\\knime-workspace\\orange\\orange_machine_learning\\"
 var_path_data = "/Users/m_lauber/Dropbox/knime-workspace/orange/orange_machine_learning/"
-df = pq.read_table(var_path_data + "train.parquet").to_pandas()
+df = pq.read_table(var_path_data + "test.parquet").to_pandas()
 
-features = [feat for feat in df.columns]
+# set the path for the pickel file
+path = var_path_data + 'vtreat_model.pkl'
+# Save object as pickle file
+vtreat_model_load = pickle.load(open(path, 'rb'))
 
-num_cols = df[features].select_dtypes(include='number').columns.tolist()
-cat_cols = df[features].select_dtypes(exclude='number').columns.tolist()
-
-df[cat_cols] = df[cat_cols].astype(str)
-
-print(df.head())
+# apply the loaded model to the test data (or any new data)
+d_prepared = vtreat_model_load.transform(df)
 
 
 def pandas_to_orange(df):
@@ -40,13 +46,10 @@ def pandas_to_orange(df):
             else:
                 return Orange.data.DiscreteVariable(col, values=df[col].unique().tolist())
         else:
-            raise ValueError(
-                f"Unsupported dtype {df[col].dtype} for column {col}")
+            raise ValueError(f"Unsupported dtype {df[col].dtype} for column {col}")
 
-    feature_vars = [get_variable(col) for col in df.columns if not isinstance(
-        get_variable(col), Orange.data.StringVariable)]
-    meta_vars = [get_variable(col) for col in df.columns if isinstance(
-        get_variable(col), Orange.data.StringVariable)]
+    feature_vars = [get_variable(col) for col in df.columns if not isinstance(get_variable(col), Orange.data.StringVariable)]
+    meta_vars = [get_variable(col) for col in df.columns if isinstance(get_variable(col), Orange.data.StringVariable)]
 
     domain = Orange.data.Domain(feature_vars, metas=meta_vars)
 
@@ -55,15 +58,10 @@ def pandas_to_orange(df):
     string_data = df.select_dtypes(include='object').astype(str).values
 
     # Create a table for non-string columns
-    table = Orange.data.Table.from_numpy(
-        domain, X=non_string_data, metas=string_data)
+    table = Orange.data.Table.from_numpy(domain, X=non_string_data, metas=string_data)
 
     return table
 
 
-# Convert the pandas DataFrame to an Orange Table
-out_data = pandas_to_orange(df)
-
-# print(type(out_table))
-
-# Now you can use the out_table with Orange3
+# Convert pandas DataFrame to Orange data table
+out_data = pandas_to_orange(d_prepared)
